@@ -15,6 +15,7 @@ const (
 	TypeKindFunc      = "func"
 	TypeKindMap       = "map"
 	TypeKindInterface = "interface"
+	TypeKindChan      = "chan"
 )
 
 type Type struct {
@@ -30,6 +31,9 @@ type Type struct {
 	// For maps only
 	mapKeyType *Type
 	mapValType *Type
+
+	// For channels only
+	chanDir ast.ChanDir
 }
 
 func (t *Type) String() string {
@@ -72,6 +76,16 @@ func (t *Type) String() string {
 			strings.Join(params, ", "),
 			strings.Join(results, ", "),
 		)
+	case TypeKindChan:
+		format := "chan %s"
+		switch t.chanDir {
+		case ast.RECV:
+			format = "<-chan %s"
+		case ast.SEND:
+			format = "chan<- %s"
+		}
+
+		return fmt.Sprintf(format, t.Child.String())
 	}
 	return ""
 }
@@ -135,8 +149,14 @@ func ParseType(
 		return &Type{
 			Kind: TypeKindInterface,
 		}
+	case *ast.ChanType:
+		return &Type{
+			Kind:    TypeKindChan,
+			Child:   ParseType(paramType.Value, typesMap, sourcePackageName),
+			chanDir: paramType.Dir,
+		}
 	default:
-		panic("unhandled type")
+		panic(fmt.Sprintf("unhandled type %T", node))
 	}
 }
 
