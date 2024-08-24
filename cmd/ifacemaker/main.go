@@ -6,9 +6,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/denisdubovitskiy/ifacemaker/internal/generator"
-	"github.com/denisdubovitskiy/ifacemaker/internal/golang"
-	"github.com/denisdubovitskiy/ifacemaker/internal/gomodule"
+	"github.com/2nick/ifacemaker/internal/generator"
+	"github.com/2nick/ifacemaker/internal/golang"
+	"github.com/2nick/ifacemaker/internal/gomodule"
 	"github.com/jessevdk/go-flags"
 	"github.com/spf13/afero"
 )

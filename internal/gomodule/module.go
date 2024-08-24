@@ -8,8 +8,8 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/2nick/ifacemaker/internal/golang"
 	"github.com/Masterminds/semver"
-	"github.com/denisdubovitskiy/ifacemaker/internal/golang"
 	"github.com/spf13/afero"
 )
 
